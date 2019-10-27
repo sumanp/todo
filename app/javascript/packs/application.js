@@ -40,12 +40,4 @@ $(document).on('turbolinks:load', function() {
         });
     });
   }
-
-  $('button#back').on('click', function(e){
-      e.preventDefault();
-      window.history.back();
-  });
-
-  $('.alert').alert();
-
 })

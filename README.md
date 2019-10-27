@@ -23,3 +23,4 @@ task as complete.
 1. Tick task from the task list (ajax call)
 2. Better UI
 3. Client side validation for title
+4. Better date picker with local client time
