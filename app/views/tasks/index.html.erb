@@ -1,35 +1,28 @@
-<p id="notice"><%= notice %></p>
 
-<h1>Tasks</h1>
+<div class="task-form">
+<%= form_for(current_user.tasks.new, html: { class: 'form-inline' }) do |form| %>
+  <div class="field">
+    <%= form.label :title, class: 'sr-only' %>
+    <%= form.text_field :title, class: 'form-control input-lg', placeholder: 'Do or do not, there is no try' %>
+  </div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Due date</th>
-      <th>Completed</th>
-      <th>User</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @tasks.each do |task| %>
-      <tr>
-        <td><%= task.title %></td>
-        <td><%= task.description %></td>
-        <td><%= task.due_at %></td>
-        <td><%= task.completed %></td>
-        <td><%= task.user_id %></td>
-        <td><%= link_to 'Show', task %></td>
-        <td><%= link_to 'Edit', edit_task_path(task) %></td>
-        <td><%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Task', new_task_path %>
+  <div class="actions">
+    <%= form.submit class: "btn btn-success" %>
+  </div>
+<% end %>
+</div>
+<br />
+<div class="task-list">
+<ul id="spans" data-url="<%= sort_tasks_path %>">
+  <% @tasks.each do |task| %>
+  <li class='task' data-id=<%= task.id %>>
+    <div class="card">
+      <div class="card-body">
+        <%= task.title %>
+        <span class="float-right"><%= link_to 'Edit', edit_task_path(task) %></span>
+      </div>
+    </div>
+  </li>
+  <% end %>
+</ul>
+</div>
