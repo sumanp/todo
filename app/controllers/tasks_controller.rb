@@ -3,7 +3,7 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:show]
 
   def index
-    @tasks = Task.all
+    @tasks = current_user.tasks.not_done.order_by_position
   end
 
   def show
@@ -21,8 +21,8 @@ class TasksController < ApplicationController
 
     respond_to do |format|
       if @task.save
-        format.html { redirect_to @task, notice: 'Task was successfully created.' }
-        format.json { render :show, status: :created, location: @task }
+        format.html { redirect_to tasks_path }
+        format.json { render :edit, status: :created, location: @task }
       else
         format.html { render :new }
         format.json { render json: @task.errors, status: :unprocessable_entity }
@@ -50,13 +50,20 @@ class TasksController < ApplicationController
     end
   end
 
+  def sort
+    params[:span].each_with_index do |id, index|
+       Task.where(id: id).update_all(position: index + 1) # Update code
+    end
+    respond_to { |format| format.js }
+  end
+
   private
   def set_task
     @task = Task.find(params[:id])
   end
 
   def task_params
-    params.require(:task).permit(:title, :description, :due_at, :completed, :user_id)
+    params.require(:task).permit(:title, :description, :due_at, :completed, :user_id, :span)
   end
 
   def owned_task

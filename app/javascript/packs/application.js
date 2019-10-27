@@ -19,3 +19,24 @@ require("channels")
 import "controllers"
 import '../stylesheets/application.scss'
 import './bootstrap_custom.js'
+import sortable from 'html5sortable/dist/html5sortable.es.js'
+import Rails from '@rails/ujs'
+
+
+$(document).on('turbolinks:load', function() {
+  sortable('#spans', {
+    items: '.task'
+  });
+  if (typeof sortable('#spans')[0] != 'undefined'){
+    sortable('#spans')[0].addEventListener('sortupdate', function(e) {
+      var dataIDList = $(this).children().map(function(index){
+        return "span[]=" + $(this).data("id");
+      }).get().join("&");
+      Rails.ajax({
+          url: $(this).data("url"),
+          type: "PATCH",
+          data: dataIDList,
+        });
+    });
+  }
+})
