@@ -1,9 +1,16 @@
 class TasksController < ApplicationController
+  layout 'sidebar'
+
   before_action :owned_task, only: [:edit, :update, :destroy]
   before_action :set_task, only: [:show]
 
   def index
     @tasks = current_user.tasks.not_done.order_by_position
+    if params[:status] == 'today'
+      @tasks = @tasks.due_today
+    end
+
+    @tasks
   end
 
   def show
@@ -21,7 +28,7 @@ class TasksController < ApplicationController
 
     respond_to do |format|
       if @task.save
-        format.html { redirect_to tasks_path }
+        format.html { redirect_to edit_task_path(@task) }
         format.json { render :edit, status: :created, location: @task }
       else
         format.html { render :new }
@@ -42,14 +49,6 @@ class TasksController < ApplicationController
     end
   end
 
-  def destroy
-    @task.destroy
-    respond_to do |format|
-      format.html { redirect_to tasks_url, notice: 'Task was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
-
   def sort
     params[:span].each_with_index do |id, index|
        Task.where(id: id).update_all(position: index + 1) # Update code
@@ -63,7 +62,7 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title, :description, :due_at, :completed, :user_id, :span)
+    params.require(:task).permit(:title, :description, :due_at, :completed, :user_id, :span, :status)
   end
 
   def owned_task

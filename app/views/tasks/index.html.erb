@@ -1,9 +1,10 @@
-
 <div class="task-form">
+  <h3><%= current_url %></h3>
+  <br /><br />
 <%= form_for(current_user.tasks.new, html: { class: 'form-inline' }) do |form| %>
   <div class="field">
     <%= form.label :title, class: 'sr-only' %>
-    <%= form.text_field :title, class: 'form-control input-lg', placeholder: 'Do or do not, there is no try' %>
+    <%= form.text_field :title, class: 'form-control input-lg', placeholder: '"Do or do not, there is no try" - Yoda' %>
   </div>
 
   <div class="actions">
@@ -13,16 +14,17 @@
 </div>
 <br />
 <div class="task-list">
-<ul id="spans" data-url="<%= sort_tasks_path %>">
-  <% @tasks.each do |task| %>
-  <li class='task' data-id=<%= task.id %>>
-    <div class="card">
-      <div class="card-body">
-        <%= task.title %>
-        <span class="float-right"><%= link_to 'Edit', edit_task_path(task) %></span>
+  <ul id="spans" data-url="<%= sort_tasks_path %>">
+    <% @tasks.each do |task| %>
+    <li class='task' data-id=<%= task.id %>>
+      <div class="card">
+        <div class="card-body">
+          <h6><%= link_to task.title, task_path(task) %></h6>
+          <%= due_date(task.due_at) %>
+          <span class="float-right"><%= link_to 'Edit', edit_task_path(task) %></span>
+        </div>
       </div>
-    </div>
-  </li>
-  <% end %>
-</ul>
+    </li>
+    <% end %>
+  </ul>
 </div>

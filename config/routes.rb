@@ -1,11 +1,18 @@
 Rails.application.routes.draw do
   devise_for :users
-  root 'pages#landing' #TODO: changes routes based on login
+  devise_scope :user do
+    authenticated :user do
+      root 'tasks#index', as: :authenticated_root
+    end
 
-  resources :tasks do
+    unauthenticated do
+      root 'devise/sessions#new', as: :unauthenticated_root
+    end
+  end
+
+  resources :tasks, expect: :destory do
     collection do
       patch :sort
     end
   end
-
 end
