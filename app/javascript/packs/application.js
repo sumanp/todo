@@ -27,7 +27,7 @@ $(document).on('turbolinks:load', function() {
   sortable('#spans', {
     items: '.task'
   });
-  
+
   if (typeof sortable('#spans')[0] != 'undefined'){
     sortable('#spans')[0].addEventListener('sortupdate', function(e) {
       var dataIDList = $(this).children().map(function(index){
@@ -45,4 +45,7 @@ $(document).on('turbolinks:load', function() {
       e.preventDefault();
       window.history.back();
   });
+
+  $('.alert').alert();
+
 })

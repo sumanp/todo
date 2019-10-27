@@ -16,8 +16,9 @@
         <%= render 'layouts/navbar.html.erb' %>
 
         <div class="container-fluid">
-          <p class="notice"><%= notice %></p>
-          <p class="alert"><%= alert %></p>
+          <% flash.each do |name, msg| %>
+            <%= content_tag :div, msg, class: [:alert, alert_for(name)], role: "alert"%>
+          <% end %>
           <%= yield %>
         </div>
       </div>
