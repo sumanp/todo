@@ -1,3 +1,5 @@
+### Screenshot
+![Image](https://raw.githubusercontent.com/sumanp/todo/master/tmp/screenshot.png)
 
 ## Specification
 1. Built with RoR 6.0 & Ruby 2.6.3
