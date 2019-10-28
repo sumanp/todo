@@ -5,7 +5,7 @@
 1. Built with RoR 6.0 & Ruby 2.6.3
 2. rbenv install 2.6.3
 3. gem install rails -v 6.0
-4. rake db:setup, rake db:migration
+4. rake db:setup, rake db:migrate
 5. rails s or foreman start -f procfile.dev
 
 
